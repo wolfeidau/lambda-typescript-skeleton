@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Parameters:
+    NodeEnv:
+        Type: String
+Resources:
+  Function:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: ./handler.zip
+      Environment:
+        Variables:
+          NODE_ENV:
+            Ref: NodeEnv
+
+Outputs:
+  FunctionArn:
+    Value: !GetAtt Function.Arn
+    Export:
+      Name: !Sub "${AWS::StackName}-FunctionArn"
