@@ -1,4 +1,4 @@
-import handler from "../index";
+import { handler } from "../index";
 
 const event = {
     message: "Hello world!",
