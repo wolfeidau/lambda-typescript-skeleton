@@ -43,7 +43,7 @@ deploy: build
 	aws cloudformation package \
 		--template-file deploy.sam.yaml \
 		--output-template-file deploy.out.yaml \
-		--s3-bucket ${S3_BUCKET}
+		--s3-bucket ${S3_BUCKET} \
 		--s3-prefix sam
 
 	aws cloudformation deploy \
