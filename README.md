@@ -2,13 +2,17 @@
 
 This skeleton contains a basic lambda function written in typescript with tests, linting and deployment configuration using SAM.
 
-# why typescript?
+# why Typescript?
 
-Having programmed in JS for quite a few years totally over watching myself and others make the same trivial mistakes. Typescripts aproach to base the langauge on JS, then introduce a safety net of types, along with a raft other small enhancements is much appreciated. My aim is to encourage new delelopers to use Typescript and skip the relative nightmare that is JS, at least until they have the basics.
+Having programmed in JS for quite a few years totally over watching myself and others make the same trivial mistakes, I want to help others avoid these pitfals, hence the move to Typescript.
+
+Typescript is mostly compatible with JS while introducing static types, this paired with a raft other enhancements makes the language safer, more robust and in my view better for beginners.
+
+The aim of this project is provide a skeleton enabling developers to try Typescript in Lambda Functions.
 
 # conventions
 
-This project uses a couple of conventions to manage parralel environments and configuration.
+This project uses a couple of conventions which simplify running parralel environments and configuration.
 
 ## environment
 
