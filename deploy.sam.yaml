@@ -1,8 +1,11 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Parameters:
-    NodeEnv:
-        Type: String
+    EnvironmentName:
+      Type: String
+    EnvironmentNumber:
+      Type: String
+
 Resources:
   Function:
     Type: AWS::Serverless::Function
@@ -10,11 +13,20 @@ Resources:
       Handler: index.handler
       Runtime: nodejs6.10
       CodeUri: ./handler.zip
-      Environment:
+      MemorySize: 1024
+      Timeout: 30
+      # These policies will get you started but you really need to 
+      # be more specific!
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AWSXrayWriteOnlyAccess
+        - AmazonSSMFullAccess
+      Environment:   
         Variables:
-          NODE_ENV:
-            Ref: NodeEnv
-
+          ENVIRONMENT_NAME:
+            Ref: EnvironmentName
+          ENVIRONMENT_NUMBER:
+            Ref: EnvironmentNumber
 Outputs:
   FunctionArn:
     Value: !GetAtt Function.Arn

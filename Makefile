@@ -1,35 +1,52 @@
 #
 # These can be overriden by the CI server using enviroment variables.
 #
-DEPLOY_ENV ?= 1
-S3_BUCKET ?= ""
-NODE_ENV ?= "production"
+APPNAME ?= ts-skel-lambda
+ENV ?= dev
+ENV_NO ?= 1
+
+# default local development target
+default: clean compile build deploy
+
+# used in CI
+ci: clean setup compile build
 
 clean:
 	rm -f handler.zip
-	rm -f deploy.out.yaml
+	rm -f *.out.yaml
 	rm -rf node_modules
 
-test:
+test: compile
 	yarn lint
 	yarn test
 
+setup:
+	curl -o /etc/yum.repos.d/yarn.repo https://dl.yarnpkg.com/rpm/yarn.repo
+	curl --silent --location https://rpm.nodesource.com/setup_6.x | bash -
+	yum -y install nodejs zip
+	npm install -g typescript tslint
+
+compile:
+	npm install
+	npm run-script prepare
+
 # build and package with just the required deps, then put it back to dev
 build: clean	
-	yarn install --production
-	zip -r handler.zip index.js node_modules
-	yarn install
+	npm install --production
+	zip -r handler.zip index.js lib node_modules
+	npm install
 
 deploy: build
 	aws cloudformation package \
 		--template-file deploy.sam.yaml \
 		--output-template-file deploy.out.yaml \
 		--s3-bucket ${S3_BUCKET}
+		--s3-prefix sam
 
 	aws cloudformation deploy \
 		--template-file deploy.out.yaml \
 		--capabilities CAPABILITY_IAM \
-		--stack-name skeleton-lambda-${DEPLOY_ENV} \
-		--parameter-overrides NodeEnv=${NODE_ENV}
+		--stack-name ${APPNAME}-$(ENV)-$(ENV_NO) \
+		--parameter-overrides EnvironmentName=$(ENV) EnvironmentNumber=$(ENV_NO)
 
 .PHONY: test clean build deploy
