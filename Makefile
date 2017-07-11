@@ -32,11 +32,14 @@ compile:
 
 # build and package with just the required deps, then put it back to dev
 build: clean	
-	npm install --production
-	zip -r handler.zip index.js lib node_modules
+	npm install --production --no-optional
+	find index.js lib node_modules -exec touch -t 201701010000 {} +
+	zip -X -q -r handler.zip index.js lib node_modules
 	npm install
 
 deploy: build
+	echo "Running as: $(shell aws sts get-caller-identity --query Arn --output text)"
+
 	aws cloudformation package \
 		--template-file deploy.sam.yaml \
 		--output-template-file deploy.out.yaml \
