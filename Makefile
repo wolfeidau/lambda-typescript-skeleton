@@ -21,7 +21,6 @@ test: compile
 	yarn test
 
 setup:
-	curl -o /etc/yum.repos.d/yarn.repo https://dl.yarnpkg.com/rpm/yarn.repo
 	curl --silent --location https://rpm.nodesource.com/setup_6.x | bash -
 	yum -y install nodejs zip
 	npm install -g typescript tslint
@@ -29,6 +28,7 @@ setup:
 compile:
 	npm install
 	npm run-script prepare
+
 
 # build and package with just the required deps, then put it back to dev
 #
@@ -40,18 +40,19 @@ build: clean
 	npm install
 
 deploy: build
+
 	echo "Running as: $(shell aws sts get-caller-identity --query Arn --output text)"
 
 	aws cloudformation package \
 		--template-file deploy.sam.yaml \
 		--output-template-file deploy.out.yaml \
-		--s3-bucket ${S3_BUCKET} \
+		--s3-bucket $(S3_BUCKET) \
 		--s3-prefix sam
 
 	aws cloudformation deploy \
 		--template-file deploy.out.yaml \
 		--capabilities CAPABILITY_IAM \
-		--stack-name ${APPNAME}-$(ENV)-$(ENV_NO) \
+		--stack-name $(APPNAME)-$(ENV)-$(ENV_NO) \
 		--parameter-overrides EnvironmentName=$(ENV) EnvironmentNumber=$(ENV_NO)
 
 .PHONY: test clean build deploy

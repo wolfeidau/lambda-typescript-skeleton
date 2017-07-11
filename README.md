@@ -1,12 +1,12 @@
 # lambda-typescript-skeleton
 
-This skeleton contains a basic lambda function written in typescript with tests, linting and deployment configuration using SAM.
+This skeleton contains a basic [Amazon Web Services](https://aws.amazon.com/) (AWS) lambda function written in [Typescript](https://www.typescriptlang.org) with tests, linting and deployment configuration using AWS [Serverless Application Model](https://github.com/awslabs/serverless-application-model) (SAM).
 
 # why Typescript?
 
-Having programmed in JS for quite a few years totally over watching myself and others make the same trivial mistakes, I want to help others avoid these pitfals, hence the move to Typescript.
+Having programmed in Javascript for quite a few years I am totally over watching myself, and others make the same trivial mistakes. I want to help others avoid these pitfals, hence the move to Typescript.
 
-Typescript is mostly compatible with JS while introducing static types, this paired with a raft other enhancements makes the language safer, more robust and in my view better for beginners.
+Typescript is mostly compatible with Javascript while introducing static types, this paired with a raft other enhancements makes the language safer, more robust and in my view better for beginners.
 
 The aim of this project is provide a skeleton enabling developers to try Typescript in Lambda Functions.
 
@@ -96,6 +96,8 @@ Deploy the skeleton, this will use the `BUCKET` to stage the handler.zip file, p
 ```
 AWS_PROFILE=myawsprofile AWS_REGION=us-west-2 BUCKET=somebucket.example.com make deploy
 ```
+
+**Note:** The `Makefile` has been built to enable reproducable builds, this should mean deployments only happen when the code or dependencies are updated.
 
 # License
 
