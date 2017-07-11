@@ -8,7 +8,7 @@ Having programmed in JS for quite a few years totally over watching myself and o
 
 # conventions
 
-This project uses a few conventions.
+This project uses a couple of conventions to manage parralel environments and configuration.
 
 ## environment
 
@@ -71,6 +71,26 @@ rm -rf .git
 git init
 git add . 
 git commit -a "Initial import of skeleton project"
+```
+
+# usage
+
+Clone the lambda function, in this example we are just cloning the skeleton.
+
+```
+git clone https://github.com/wolfeidau/lambda-typescript-skeleton.git
+```
+
+Run the tests.
+
+```
+make test
+```
+
+Deploy the skeleton, this will use the `BUCKET` to stage the handler.zip file, prior to deployment with [SAM](https://github.com/awslabs/serverless-application-model).
+
+```
+AWS_PROFILE=myawsprofile AWS_REGION=us-west-2 BUCKET=somebucket.example.com make deploy
 ```
 
 # License
