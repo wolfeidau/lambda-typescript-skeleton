@@ -31,6 +31,8 @@ compile:
 	npm run-script prepare
 
 # build and package with just the required deps, then put it back to dev
+#
+# Note: This aims to build reproducable zip files, hence the touch to reset timestamps
 build: clean	
 	npm install --production --no-optional
 	find index.js lib node_modules -exec touch -t 201701010000 {} +
